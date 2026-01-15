@@ -8,10 +8,11 @@ class Connection {
 
     init() {
         this.sequelize = new Sequelize({
-            host: process.env.DB_HOST,
-            database: process.env.DB_NAME,
-            username: process.env.DB_USERNAME,
-            password: process.env.DB_PASSWORD,
+            host: process.env.PG_HOST,
+            database: process.env.PG_DB,
+            username: process.env.PG_USER,
+            password: process.env.PG_PASSWORD,
+            
             dialect: 'postgres',
             logging: false
         });
