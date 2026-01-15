@@ -4,7 +4,7 @@ class UserController {
     async index(_, res) { 
         try {
             const users = await userService.findAll();
-            res.status(200).json(users);
+            res.status(200).json({ users });
 
         } catch (error) {
             res.status(500).json({ message: 'Erro desconhecido! Entre em contato com o Administrador! '});
@@ -15,7 +15,7 @@ class UserController {
         try {
             const id = req.params.id;
             const user = await userService.findById(id);
-            res.status(200).json(user);
+            res.status(200).json({ user });
 
         } catch (error) {
             res.status(500).json({ message: 'Erro desconhecido! Entre em contato com o Administrador! '});
@@ -24,8 +24,8 @@ class UserController {
 
     async add(req, res) { 
         try {
-            const userData = req.body;
-            const user = await userService.create(userData);
+            const { email, password } = req.body;            
+            const user = await userService.create(email, password);
 
             res.status(201).json({ 
                 user, 
@@ -33,21 +33,21 @@ class UserController {
             });
 
         } catch (error) {
-            res.status(500).json({ message: 'Erro desconhecido! Entre em contato com o Administrador! '});
+            res.status(500).json({ message: 'Erro desconhecido! Entre em contato com o Administrador!' + error });
         }
     }
 
     async edit(req, res) { 
         try {
-            const id = req.params;
-            const userData = req.body;
-            const user = userService.update(id, userData);
+            const id = req.params.id;
+            const { email, password } = req.body;
+            const user = await userService.update(id, email, password);
 
             res.status(200).json({ 
                 user, 
                 message: 'Usuário editado com sucesso!' 
             });
-
+ 
         } catch (error) {
             res.status(500).json({ message: 'Erro desconhecido! Entre em contato com o Administrador! '});
         }
@@ -55,7 +55,7 @@ class UserController {
 
     async delete(req, res) { 
         try {
-            const id = req.params;
+            const id = req.params.id;
             await userService.destroy(id);
             res.status(204).json({ message: 'Usuário removido com sucesso!' });
 
