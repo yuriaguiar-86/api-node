@@ -7,7 +7,10 @@ class UserService {
 
     async findById(id, transaction) {
         const user = await User.findByPk(id, { transaction });
-        if (!user) throw new Error('Usuário não encontrado');
+
+        if (!user) {
+            throw new Error('Usuário não encontrado!');
+        }
         return user;
     }
 
