@@ -6,9 +6,14 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+app.use((_, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  next();
+});
 app.use(userRouter);
 
-connection.sequelize.sync({ force: false })
+connection.sequelize.sync({ alter: true })
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Rodando servidor na porta ${PORT}`);
