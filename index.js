@@ -8,7 +8,7 @@ const PORT = 3000;
 app.use(express.json());
 app.use(userRouter);
 
-connection.sequelize.authenticate().sync({ force: true })
+connection.sequelize.sync({ force: false })
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Rodando servidor na porta ${PORT}`);
